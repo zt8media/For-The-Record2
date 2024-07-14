@@ -9,6 +9,9 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Serve static files from the "public" directory
+app.use('/public', express.static(path.join(__dirname, '../public')));
+
 // MySQL connection
 const db = mysql.createConnection({
   host: 'localhost',
@@ -26,7 +29,7 @@ db.connect((err) => {
 });
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../dist')));
+app.use(express.static(path.join(__dirname, '../Ecommercev2/dist')));
 
 // Root route
 app.get('/', (req, res) => {
@@ -83,7 +86,7 @@ app.delete('/records/:id', (req, res) => {
 
 // All other requests should return the React app
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/index.html'));
+  res.sendFile(path.join(__dirname, '../Ecommercev2/dist/index.html'));
 });
 
 app.listen(port, () => {

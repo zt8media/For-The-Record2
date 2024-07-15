@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // Serve static files from the "public" directory
-app.use('/public', express.static(path.join(__dirname, '../public')));
+app.use('/public', express.static(path.join(__dirname, '../dist')));
 
 // MySQL connection
 const db = mysql.createConnection({
@@ -29,11 +29,11 @@ db.connect((err) => {
 });
 
 // Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../Ecommercev2/dist')));
+app.use(express.static(path.join(__dirname, '../dist')));
 
 // Root route
 app.get('/', (req, res) => {
-  res.send('Welcome to the Records API');
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 // Get all records
@@ -86,7 +86,7 @@ app.delete('/records/:id', (req, res) => {
 
 // All other requests should return the React app
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../Ecommercev2/dist/index.html'));
+  res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
 app.listen(port, () => {

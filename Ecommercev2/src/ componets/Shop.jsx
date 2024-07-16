@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PageLayout from './PageLayout';
 
 import { fetchRecords } from '../api';
+import Navbar from './Navbar';
 
 const Shop = () => {
   const [records, setRecords] = useState([]);
@@ -27,7 +28,9 @@ const Shop = () => {
   }
 
   return (
-    <PageLayout title="Shop" subtitle="Browse our collection of records">
+   <>
+   <Navbar/>
+   <PageLayout title="Shop" subtitle="Browse our collection of records">
       <div className="product-list">
         {records.length === 0 ? (
           <p>No records found.</p>
@@ -45,6 +48,7 @@ const Shop = () => {
         )}
       </div>
     </PageLayout>
+ </>
   );
 };
 

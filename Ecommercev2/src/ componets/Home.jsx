@@ -1,16 +1,21 @@
 import React from 'react';
 import PageLayout from './PageLayout';
+// import StickyNavbar from './StickyNavbar';
 // import homeImage from '../assets/home.jpg'; // Add your own image
-
+import Navbar from './Navbar';
 const Home = () => {
   return (
-    <PageLayout title="Welcome to For The Record" subtitle="Discover the best records here">
+   <>   
+  <Navbar/>
+   <PageLayout title="Welcome to home page " subtitle="Discover the best records here">
+
       <section className="home-content">
-        <h1>Featured Products</h1>
-        <p>Explore our collection of records</p>
+        <h1>HOME PAGE</h1>
+        <p>hERE IS THE HOME PAGE</p>
         {/* Add more content here */}
       </section>
     </PageLayout>
+  </>
   );
 };
 

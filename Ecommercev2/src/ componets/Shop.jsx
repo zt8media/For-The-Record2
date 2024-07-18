@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 
 const Shop = () => {
   const [records, setRecords] = useState([]);
@@ -8,9 +7,13 @@ const Shop = () => {
   useEffect(() => {
     const getRecords = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/records');
-        console.log('Fetched records:', response.data); // Debugging log
-        setRecords(response.data);
+        const response = await fetch('http://localhost:5000/records');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('Fetched records:', data); // Debugging log
+        setRecords(data);
       } catch (error) {
         console.error('Error fetching records:', error);
         setError(error);
@@ -31,7 +34,7 @@ const Shop = () => {
         {records.length === 0 ? (
           <p>No records found.</p>
         ) : (
-          records.map(record => (
+          records.map((record) => (
             <div key={record.record_id} className="product-item">
               <img src={record.image_url} alt={record.album_title} className="product-image" />
               <h3>{record.album_title}</h3>

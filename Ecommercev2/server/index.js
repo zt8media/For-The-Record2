@@ -7,7 +7,9 @@ const port = process.env.PORT || 5000;
 require('dotenv').config(); // Load environment variables
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173' // Replace with your frontend URL
+}));
 app.use(express.json());
 
 // Serve static files from the "public" directory

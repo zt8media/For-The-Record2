@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL ||https://for-the-record.onrender.com
+  baseURL: 'http://172.31.19.35.5000', // Your Express server's base URL
 });
 
 export const fetchRecords = () => api.get('/records');

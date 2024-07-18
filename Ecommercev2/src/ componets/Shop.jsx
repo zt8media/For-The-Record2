@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PageLayout from './PageLayout';
-
 import { fetchRecords } from '../api';
 import Navbar from './Navbar';
 
@@ -28,27 +27,29 @@ const Shop = () => {
   }
 
   return (
-   <>
-   <Navbar/>
-   <PageLayout title="Shop" subtitle="Browse our collection of records">
-      <div className="product-list">
-        {records.length === 0 ? (
-          <p>No records found.</p>
-        ) : (
-          records.map(record => (
-            <div key={record.id} className="product-item">
-              <img src={record.image_url} alt={record.title} className="product-image" />
-              <h3>{record.title}</h3>
-              <p>{record.artist}</p>
-              <p>{record.genre}</p>
-              <p>{record.release_year}</p>
-              <p>${parseFloat(record.price).toFixed(2)}</p>
-            </div>
-          ))
-        )}
-      </div>
-    </PageLayout>
- </>
+    <>
+      <Navbar />
+      <PageLayout title="Shop" subtitle="Browse our collection of records">
+        <div className="product-list">
+          {records.length === 0 ? (
+            <p>No records found.</p>
+          ) : (
+            records.map(record => (
+              <div key={record.record_id} className="product-item">
+                <img src={record.image_url} alt={record.album_title} className="product-image" />
+                <h3>{record.album_title}</h3>
+                <p>{record.artist_name}</p>
+                <p>{record.genre}</p>
+                <p>{record.year}</p>
+                <p>{record.description}</p>
+                <p>${parseFloat(record.price).toFixed(2)}</p>
+                <p>Stock: {record.stock_quantity}</p>
+              </div>
+            ))
+          )}
+        </div>
+      </PageLayout>
+    </>
   );
 };
 

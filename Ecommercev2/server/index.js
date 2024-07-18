@@ -4,6 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const app = express();
 const port = process.env.PORT || 5000;
+require('dotenv').config(); // Load environment variables
 
 // Middleware
 app.use(cors());
@@ -14,10 +15,10 @@ app.use('/public', express.static(path.join(__dirname, '../dist')));
 
 // MySQL connection
 const db = mysql.createConnection({
-  host: 'localhost',
-  user: 'root', // Your MySQL username
-  password: 'password', // Your MySQL password
-  database: 'ecommerce',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
 });
 
 db.connect((err) => {
@@ -38,7 +39,7 @@ app.get('/', (req, res) => {
 
 // Get all records
 app.get('/records', (req, res) => {
-  const query = 'SELECT * FROM records';
+  const query = 'SELECT * FROM vinyl_records';
   db.query(query, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
@@ -49,22 +50,22 @@ app.get('/records', (req, res) => {
 
 // Add a new record
 app.post('/records', (req, res) => {
-  const { title, artist, genre, release_year, price, image_url } = req.body;
-  const query = 'INSERT INTO records (title, artist, genre, release_year, price, image_url) VALUES (?, ?, ?, ?, ?, ?)';
-  db.query(query, [title, artist, genre, release_year, price, image_url], (err, results) => {
+  const { artist_name, album_title, genre, year, description, price, stock_quantity, image_url } = req.body;
+  const query = 'INSERT INTO vinyl_records (artist_name, album_title, genre, year, description, price, stock_quantity, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+  db.query(query, [artist_name, album_title, genre, year, description, price, stock_quantity, image_url], (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
-    res.status(201).json({ id: results.insertId, title, artist, genre, release_year, price, image_url });
+    res.status(201).json({ id: results.insertId, artist_name, album_title, genre, year, description, price, stock_quantity, image_url });
   });
 });
 
 // Update an existing record
 app.put('/records/:id', (req, res) => {
   const { id } = req.params;
-  const { title, artist, genre, release_year, price, image_url } = req.body;
-  const query = 'UPDATE records SET title = ?, artist = ?, genre = ?, release_year = ?, price = ?, image_url = ? WHERE id = ?';
-  db.query(query, [title, artist, genre, release_year, price, image_url, id], (err, results) => {
+  const { artist_name, album_title, genre, year, description, price, stock_quantity, image_url } = req.body;
+  const query = 'UPDATE vinyl_records SET artist_name = ?, album_title = ?, genre = ?, year = ?, description = ?, price = ?, stock_quantity = ?, image_url = ? WHERE record_id = ?';
+  db.query(query, [artist_name, album_title, genre, year, description, price, stock_quantity, image_url, id], (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -75,7 +76,7 @@ app.put('/records/:id', (req, res) => {
 // Delete a record
 app.delete('/records/:id', (req, res) => {
   const { id } = req.params;
-  const query = 'DELETE FROM records WHERE id = ?';
+  const query = 'DELETE FROM vinyl_records WHERE record_id = ?';
   db.query(query, [id], (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });

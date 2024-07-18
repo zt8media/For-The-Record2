@@ -6,10 +6,13 @@ const app = express();
 const port = process.env.PORT || 5000;
 require('dotenv').config(); // Load environment variables
 
-// Middleware
-app.use(cors({
-  origin: 'http://localhost:5173' // Replace with your frontend URL
-}));
+// Middleware to handle CORS
+const corsOptions = {
+  origin: ['http://localhost:5173', 'https://for-the-record.onrender.com'], // Allow both localhost (for development) and your production domain
+  optionsSuccessStatus: 200,
+};
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 // Serve static files from the "public" directory
@@ -21,7 +24,7 @@ const db = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
-  port: process.env.DB_PORT, // Use `port` instead of `database`
+  port: process.env.DB_PORT,
 });
 
 db.connect((err) => {

@@ -4,21 +4,17 @@ const cors = require('cors');
 const path = require('path');
 const app = express();
 const port = process.env.PORT || 5000;
-require('dotenv').config({ path: path.join(__dirname, '.env') }); // Load environment variables from the server folder
+require('dotenv').config({ path: path.join(__dirname, '.env') });
 
-// Middleware to handle CORS
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://for-the-record.onrender.com'], // Allow both localhost (for development) and your production domain
+  origin: ['http://localhost:5173', 'https://for-the-record.onrender.com'],
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
 
 app.use(express.json());
-
-// Serve static files from the dist directory
 app.use(express.static(path.join(__dirname, '../dist')));
 
-// MySQL connection
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -35,20 +31,19 @@ db.connect((err) => {
   console.log('Connected to MySQL');
 });
 
-// API route to get all records
 app.get('/records', (req, res) => {
-  console.log('GET /records');
+  console.log('GET /records request received');
   const query = 'SELECT * FROM vinyl_records';
   db.query(query, (err, results) => {
     if (err) {
       console.error('Error fetching records:', err);
       return res.status(500).json({ error: err.message });
     }
+    console.log('Records fetched successfully:', results);
     res.json(results);
   });
 });
 
-// Serve the frontend app for all other routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'));
 });

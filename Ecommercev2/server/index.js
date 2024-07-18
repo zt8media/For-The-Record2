@@ -19,6 +19,7 @@ const db = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
+  port: process.env.DB_PORT, // Use `port` instead of `database`
 });
 
 db.connect((err) => {
@@ -39,9 +40,11 @@ app.get('/', (req, res) => {
 
 // Get all records
 app.get('/records', (req, res) => {
+  console.log('GET /records');
   const query = 'SELECT * FROM vinyl_records';
   db.query(query, (err, results) => {
     if (err) {
+      console.error('Error fetching records:', err);
       return res.status(500).json({ error: err.message });
     }
     res.json(results);
@@ -50,10 +53,12 @@ app.get('/records', (req, res) => {
 
 // Add a new record
 app.post('/records', (req, res) => {
+  console.log('POST /records', req.body);
   const { artist_name, album_title, genre, year, description, price, stock_quantity, image_url } = req.body;
   const query = 'INSERT INTO vinyl_records (artist_name, album_title, genre, year, description, price, stock_quantity, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
   db.query(query, [artist_name, album_title, genre, year, description, price, stock_quantity, image_url], (err, results) => {
     if (err) {
+      console.error('Error adding record:', err);
       return res.status(500).json({ error: err.message });
     }
     res.status(201).json({ id: results.insertId, artist_name, album_title, genre, year, description, price, stock_quantity, image_url });
@@ -62,11 +67,13 @@ app.post('/records', (req, res) => {
 
 // Update an existing record
 app.put('/records/:id', (req, res) => {
+  console.log('PUT /records/:id', req.params, req.body);
   const { id } = req.params;
   const { artist_name, album_title, genre, year, description, price, stock_quantity, image_url } = req.body;
   const query = 'UPDATE vinyl_records SET artist_name = ?, album_title = ?, genre = ?, year = ?, description = ?, price = ?, stock_quantity = ?, image_url = ? WHERE record_id = ?';
   db.query(query, [artist_name, album_title, genre, year, description, price, stock_quantity, image_url, id], (err, results) => {
     if (err) {
+      console.error('Error updating record:', err);
       return res.status(500).json({ error: err.message });
     }
     res.json({ message: 'Record updated successfully' });
@@ -75,10 +82,12 @@ app.put('/records/:id', (req, res) => {
 
 // Delete a record
 app.delete('/records/:id', (req, res) => {
+  console.log('DELETE /records/:id', req.params);
   const { id } = req.params;
   const query = 'DELETE FROM vinyl_records WHERE record_id = ?';
   db.query(query, [id], (err, results) => {
     if (err) {
+      console.error('Error deleting record:', err);
       return res.status(500).json({ error: err.message });
     }
     res.json({ message: 'Record deleted successfully' });

@@ -1,11 +1,11 @@
 {
-  "name": "ecommercev2",
+  "name": "for-the-record",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && mv dist ../dist",
+    "build": "vite build && mv src/build ../dist",
     "start": "node server/index.js",
     "heroku-postbuild": "npm run build"
   },

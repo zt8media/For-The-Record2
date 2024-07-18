@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://172.31.19.35:5000', // Corrected URL format
+  baseURL: 'https://172.31.19.35:5000', // Corrected URL format
 });
 
 export const fetchRecords = () => api.get('/records');

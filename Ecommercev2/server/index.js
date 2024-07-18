@@ -4,7 +4,7 @@ const cors = require('cors');
 const path = require('path');
 const app = express();
 const port = process.env.PORT || 5000;
-require('dotenv').config(); // Load environment variables
+require('dotenv').config({ path: path.join(__dirname, '.env') }); // Load environment variables from the server folder
 
 // Middleware to handle CORS
 const corsOptions = {
@@ -15,8 +15,8 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
-// Serve static files from the "public" directory
-app.use('/public', express.static(path.join(__dirname, '../dist')));
+// Serve static files from the dist directory
+app.use(express.static(path.join(__dirname, '../dist')));
 
 // MySQL connection
 const db = mysql.createConnection({
@@ -35,15 +35,7 @@ db.connect((err) => {
   console.log('Connected to MySQL');
 });
 
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, '../dist')));
-
-// Root route
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/index.html'));
-});
-
-// Get all records
+// API route to get all records
 app.get('/records', (req, res) => {
   console.log('GET /records');
   const query = 'SELECT * FROM vinyl_records';
@@ -56,7 +48,7 @@ app.get('/records', (req, res) => {
   });
 });
 
-// All other requests should return the React app
+// Serve the frontend app for all other routes
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'));
 });

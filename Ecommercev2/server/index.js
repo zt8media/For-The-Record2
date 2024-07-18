@@ -1,58 +1,23 @@
-const express = require('express');
-const mysql = require('mysql2');
-const cors = require('cors');
-const path = require('path');
-const app = express();
-const port = process.env.PORT || 5000;
-require('dotenv').config({ path: path.join(__dirname, '.env') }); // Load environment variables from the server folder
+import axios from 'axios';
 
-// Middleware to handle CORS
-const corsOptions = {
-  origin: ['http://localhost:5173', 'https://for-the-record.onrender.com'], // Allow both localhost (for development) and your production domain
-  optionsSuccessStatus: 200,
+const api = axios.create({
+  baseURL: 'https://for-the-record.onrender.com', // Use your deployed server's URL
+  timeout: 30000 // Timeout set for 30 seconds
+});
+
+export const fetchRecords = () => {
+  console.log('Fetching records...');
+  return api.get('/records')
+    .then(response => {
+      console.log('Records fetched:', response.data);
+      return response.data;
+    })
+    .catch(error => {
+      console.error('Error fetching records:', error);
+      throw error;
+    });
 };
-app.use(cors(corsOptions));
 
-app.use(express.json());
-
-// Serve static files from the dist directory
-app.use(express.static(path.join(__dirname, '../dist')));
-
-// MySQL connection
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME,
-  port: process.env.DB_PORT,
-});
-
-db.connect((err) => {
-  if (err) {
-    console.error('Error connecting to MySQL:', err);
-    return;
-  }
-  console.log('Connected to MySQL');
-});
-
-// API route to get all records
-app.get('/records', (req, res) => {
-  console.log('GET /records');
-  const query = 'SELECT * FROM vinyl_records';
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Error fetching records:', err);
-      return res.status(500).json({ error: err.message });
-    }
-    res.json(results);
-  });
-});
-
-// Serve the frontend app for all other routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/index.html'));
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+export const addRecord = (record) => api.post('/records', record);
+export const updateRecord = (id, record) => api.put(`/records/${id}`, record);
+export const deleteRecord = (id) => api.delete(`/records/${id}`);

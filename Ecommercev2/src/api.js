@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000', // Your Express server's base URL
+  baseURL: 'http://172.31.19.35.5000', // Your Express server's base URL
 });
 
 export const fetchRecords = () => api.get('/records');

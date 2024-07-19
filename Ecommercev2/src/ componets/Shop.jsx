@@ -17,7 +17,7 @@ const Shop = () => {
   useEffect(() => {
     const getRecords = async () => {
       try {
-        const response = await fetch('http://localhost:5000/records');
+        const response = await fetch('https://for-the-record.onrender.com/records');
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }

@@ -1,0 +1,17 @@
+import styled from 'styled-components';
+
+const DropdownContent = styled.div`
+  position: absolute;
+  background-color: white;
+  width: 300px; // Adjust width as needed
+  border: 1px solid #ccc;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  z-index: 100; // Ensure it's on top
+  right: 0; // Align to the right side of the cart tab
+  top: 70px; // Position below the navbar
+  display: none; // Start hidden
+
+  &.show {
+    display: block; // Show when cart is clicked
+  }
+`;

@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import Navbar from './Navbar';
+import Footer from './Footer';
+import ProductCard from './ProductCard';
+import Filters from './Filters';
 
 const Shop = () => {
   const [records, setRecords] = useState([]);
+  const [filteredRecords, setFilteredRecords] = useState([]);
   const [error, setError] = useState(null);
+  const [filter, setFilter] = useState({ genre: '', price: [0, 50], category: '' });
 
   useEffect(() => {
     const getRecords = async () => {
@@ -12,8 +19,8 @@ const Shop = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        console.log('Fetched records:', data); // Debugging log
         setRecords(data);
+        setFilteredRecords(data);
       } catch (error) {
         console.error('Error fetching records:', error);
         setError(error);
@@ -23,33 +30,113 @@ const Shop = () => {
     getRecords();
   }, []);
 
+  useEffect(() => {
+    filterRecords();
+  }, [filter, records]);
+
+  const handleFilterChange = (type, value) => {
+    setFilter((prev) => ({ ...prev, [type]: value }));
+  };
+
+  const filterRecords = () => {
+    let tempRecords = [...records];
+
+    if (filter.genre) {
+      tempRecords = tempRecords.filter(record => record.genre.toLowerCase() === filter.genre.toLowerCase());
+    }
+
+    tempRecords = tempRecords.filter(record => record.price >= filter.price[0] && record.price <= filter.price[1]);
+
+    if (filter.category) {
+      tempRecords = tempRecords.filter(record =>
+        record.artist_name.toLowerCase().includes(filter.category.toLowerCase()) ||
+        record.album_title.toLowerCase().includes(filter.category.toLowerCase()) ||
+        record.year.toString().includes(filter.category.toLowerCase()) ||
+        record.genre.toLowerCase().includes(filter.category.toLowerCase())
+      );
+    }
+
+    setFilteredRecords(tempRecords);
+  };
+
   if (error) {
     return <div>Error fetching records: {error.message}</div>;
   }
 
+  const genres = [...new Set(records.map(record => record.genre))];
+
   return (
-    <div>
-      <h1>Shop</h1>
-      <div className="product-list">
-        {records.length === 0 ? (
-          <p>No records found.</p>
-        ) : (
-          records.map((record) => (
-            <div key={record.record_id} className="product-item">
-              <img src={record.image_url} alt={record.album_title} className="product-image" />
-              <h3>{record.album_title}</h3>
-              <p>{record.artist_name}</p>
-              <p>{record.genre}</p>
-              <p>{record.year}</p>
-              <p>{record.description}</p>
-              <p>${parseFloat(record.price).toFixed(2)}</p>
-              <p>Stock: {record.stock_quantity}</p>
-            </div>
-          ))
-        )}
-      </div>
-    </div>
+    <>
+      <Navbar />
+      <Container>
+        <FiltersContainer>
+          <Filters genres={genres} filter={filter} handleFilterChange={handleFilterChange} />
+        </FiltersContainer>
+        <MainContent>
+          <Title>Records</Title>
+          <ProductList>
+            {filteredRecords.length === 0 ? (
+              <NoRecords>No records found.</NoRecords>
+            ) : (
+              filteredRecords.map((record) => (
+                <ProductCard key={record.record_id} record={record} />
+              ))
+            )}
+          </ProductList>
+        </MainContent>
+      </Container>
+      <Footer />
+    </>
   );
 };
 
 export default Shop;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+`;
+
+const FiltersContainer = styled.div`
+  width: 100%;
+
+  @media (min-width: 768px) {
+    width: 20%;
+  }
+`;
+
+const MainContent = styled.div`
+  width: 100%;
+  padding: 20px;
+
+  @media (min-width: 768px) {
+    width: 80%;
+  }
+`;
+
+const Title = styled.h1`
+  text-align: center;
+  color: white;
+  font-size: 50px;
+  text-shadow: 2px 5px 15px rgb(215,70,51);
+`;
+
+const ProductList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-gap: 20px;
+  justify-content: center;
+  gap:75px;
+  padding:65px;
+  max-width:100%;
+`;
+
+const NoRecords = styled.p`
+  text-align: center;
+  color: red;
+`;

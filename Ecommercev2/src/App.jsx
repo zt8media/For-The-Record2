@@ -8,13 +8,15 @@ import Cart from './ componets/Cart';
 import Contact from './ componets/Contact';
 import Error from './ componets/Pagenotfound';
 import './index.css'
+import { CartProvider } from './ componets/CartContext'
 
 // import NewNav from './ componets/Newnav';
 // import Navbar from './ componets/Newnav';
 
 const App = () => {
   return (
-    <Router>
+    <CartProvider>
+   <Router>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
@@ -24,7 +26,8 @@ const App = () => {
       </Routes>
       {/* <Footer /> */}
     </Router>
-  );
+  </CartProvider>
+ );
 };
 
 export default App;

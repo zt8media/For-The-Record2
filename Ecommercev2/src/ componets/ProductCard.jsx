@@ -1,11 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useCart } from './CartContext'; // Import useCart
+import { useCart } from './CartContext';
+import getAlbumDetails from './spotifyAPI';
+import '@fortawesome/fontawesome-free/css/all.min.css'; // Import Font Awesome CSS
 
-const ProductCard = ({ record }) => {
-  const { addToCart } = useCart();  // Use addToCart from context
+const ProductCard = ({ record, onPreview }) => {
+  const { addToCart } = useCart();
+  const [albumDetails, setAlbumDetails] = useState(null);
+  const [albumFound, setAlbumFound] = useState(true);
 
-  // Ensure price is a number
+  useEffect(() => {
+    const fetchAlbumDetails = async () => {
+      const details = await getAlbumDetails(record.album_title, record.artist_name, record.year);
+      console.log('Album details:', details); // Log album details
+      if (details) {
+        setAlbumDetails(details);
+        setAlbumFound(true);
+      } else {
+        setAlbumFound(false);
+      }
+    };
+
+    fetchAlbumDetails();
+  }, [record.album_title, record.artist_name, record.year]);
+
   const displayPrice = isNaN(record.price) ? 0 : parseFloat(record.price).toFixed(2);
 
   return (
@@ -16,13 +34,22 @@ const ProductCard = ({ record }) => {
       <ProductDetails>{record.genre} | {record.year}</ProductDetails>
       <ProductDescription>{record.description}</ProductDescription>
       <ProductPrice>${displayPrice}</ProductPrice>
-      <AddToCartButton onClick={(e) => {
-        e.preventDefault(); // Prevent any default action that might occur
-        addToCart({
-          ...record,
-          price: parseFloat(record.price) // Ensure price is a number
-        });
-      }}>Add to Cart</AddToCartButton>
+      <ButtonContainer>
+        <AddToCartButton onClick={(e) => {
+          e.preventDefault();
+          addToCart({
+            ...record,
+            price: parseFloat(record.price)
+          });
+        }}>Add to Cart</AddToCartButton>
+        {albumFound ? (
+          <PreviewButton onClick={() => onPreview(albumDetails)}>
+            <i className="fas fa-play"></i>
+          </PreviewButton>
+        ) : (
+          <NoPreviewButton>No preview available</NoPreviewButton>
+        )}
+      </ButtonContainer>
     </ProductItem>
   );
 };
@@ -80,12 +107,19 @@ const ProductPrice = styled.p`
   font-weight: bold;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px; /* Gap between buttons */
+  margin-top: 10px;
+`;
+
 const AddToCartButton = styled.button`
   background-color: red;
   color: white;
   border: none;
   padding: 10px 20px;
-  margin-top: 10px;
   cursor: pointer;
   border-radius: 5px;
   transition: background-color 0.3s;
@@ -93,4 +127,31 @@ const AddToCartButton = styled.button`
   &:hover {
     background-color: black;
   }
+`;
+
+const PreviewButton = styled.button`
+  background-color: #1DB954;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #1ED760;
+  }
+
+  i {
+    font-size: 1.2em;
+  }
+`;
+
+const NoPreviewButton = styled.button`
+  background-color: gray;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: not-allowed;
+  border-radius: 5px;
 `;

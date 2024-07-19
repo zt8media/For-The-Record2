@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -10,6 +10,8 @@ const Shop = () => {
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState({ genre: '', price: [0, 50], category: '' });
+  const [previewTrack, setPreviewTrack] = useState(null);
+  const audioRef = useRef(null);
 
   useEffect(() => {
     const getRecords = async () => {
@@ -59,6 +61,33 @@ const Shop = () => {
     setFilteredRecords(tempRecords);
   };
 
+  const handlePreview = (albumDetails) => {
+    console.log('Playing preview for album:', albumDetails);
+    if (albumDetails.tracks && albumDetails.tracks.length > 0) {
+      const previewUrl = albumDetails.tracks[0].preview_url;
+      console.log('Preview URL:', previewUrl);
+      if (previewUrl === previewTrack && audioRef.current) {
+        // If the same track is already playing, pause it
+        if (!audioRef.current.paused) {
+          audioRef.current.pause();
+        } else {
+          audioRef.current.play().catch(error => {
+            console.error('Error playing audio:', error);
+          });
+        }
+      } else {
+        setPreviewTrack(previewUrl);
+        if (audioRef.current) {
+          audioRef.current.pause();
+          audioRef.current.src = previewUrl;
+          audioRef.current.play().catch(error => {
+            console.error('Error playing audio:', error);
+          });
+        }
+      }
+    }
+  };
+
   if (error) {
     return <div>Error fetching records: {error.message}</div>;
   }
@@ -79,13 +108,14 @@ const Shop = () => {
               <NoRecords>No records found.</NoRecords>
             ) : (
               filteredRecords.map((record) => (
-                <ProductCard key={record.record_id} record={record} />
+                <ProductCard key={record.record_id} record={record} onPreview={handlePreview} />
               ))
             )}
           </ProductList>
         </MainContent>
       </Container>
       <Footer />
+      <audio ref={audioRef} />
     </>
   );
 };

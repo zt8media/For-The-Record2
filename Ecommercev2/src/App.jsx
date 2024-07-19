@@ -9,6 +9,8 @@ import Contact from './ componets/Contact';
 import Error from './ componets/Pagenotfound';
 import './index.css'
 import { CartProvider } from './ componets/CartContext'
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 // import NewNav from './ componets/Newnav';
 // import Navbar from './ componets/Newnav';

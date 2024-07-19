@@ -1,17 +1,18 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import ProductCard from './ProductCard';
 import Filters from './Filters';
+import fallbackProducts from './fallbackProducts.json';
 
 const Shop = () => {
   const [records, setRecords] = useState([]);
   const [filteredRecords, setFilteredRecords] = useState([]);
   const [error, setError] = useState(null);
   const [filter, setFilter] = useState({ genre: '', price: [0, 50], category: '' });
-  const [previewTrack, setPreviewTrack] = useState(null);
-  const audioRef = useRef(null);
+  const [playingPreview, setPlayingPreview] = useState(null);
+  const [audio, setAudio] = useState(null);
 
   useEffect(() => {
     const getRecords = async () => {
@@ -21,11 +22,16 @@ const Shop = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
+        if (data.length === 0) {
+          throw new Error('No records found in database');
+        }
         setRecords(data);
         setFilteredRecords(data);
       } catch (error) {
-        console.error('Error fetching records:', error);
-        setError(error);
+        console.error('Error fetching records from database:', error);
+        setRecords(fallbackProducts);
+        setFilteredRecords(fallbackProducts);
+        setError('Showing fallback products due to an error fetching from the database.');
       }
     };
 
@@ -62,60 +68,60 @@ const Shop = () => {
   };
 
   const handlePreview = (albumDetails) => {
-    console.log('Playing preview for album:', albumDetails);
-    if (albumDetails.tracks && albumDetails.tracks.length > 0) {
-      const previewUrl = albumDetails.tracks[0].preview_url;
+    if (!albumDetails || !albumDetails.tracks) {
+      alert('No preview available for this album.');
+      return;
+    }
+
+    if (audio && playingPreview === albumDetails.name) {
+      audio.pause();
+      setAudio(null);
+      setPlayingPreview(null);
+      return;
+    }
+
+    if (audio) {
+      audio.pause();
+    }
+
+    const previewTrack = albumDetails.tracks.find(track => track.preview_url);
+    const previewUrl = previewTrack ? previewTrack.preview_url : null;
+
+    if (previewUrl) {
+      const newAudio = new Audio(previewUrl);
+      newAudio.play().catch(error => console.error('Error playing audio:', error));
+      setAudio(newAudio);
+      setPlayingPreview(albumDetails.name);
+      console.log('Playing preview for album:', albumDetails);
+    } else {
       console.log('Preview URL:', previewUrl);
-      if (previewUrl === previewTrack && audioRef.current) {
-        // If the same track is already playing, pause it
-        if (!audioRef.current.paused) {
-          audioRef.current.pause();
-        } else {
-          audioRef.current.play().catch(error => {
-            console.error('Error playing audio:', error);
-          });
-        }
-      } else {
-        setPreviewTrack(previewUrl);
-        if (audioRef.current) {
-          audioRef.current.pause();
-          audioRef.current.src = previewUrl;
-          audioRef.current.play().catch(error => {
-            console.error('Error playing audio:', error);
-          });
-        }
-      }
+      setPlayingPreview(null);
+      alert('No preview available for this album.');
     }
   };
-
-  if (error) {
-    return <div>Error fetching records: {error.message}</div>;
-  }
-
-  const genres = [...new Set(records.map(record => record.genre))];
 
   return (
     <>
       <Navbar />
       <Container>
         <FiltersContainer>
-          <Filters genres={genres} filter={filter} handleFilterChange={handleFilterChange} />
+          <Filters genres={[...new Set(records.map(record => record.genre))]} filter={filter} handleFilterChange={handleFilterChange} />
         </FiltersContainer>
         <MainContent>
           <Title>Records</Title>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
           <ProductList>
             {filteredRecords.length === 0 ? (
               <NoRecords>No records found.</NoRecords>
             ) : (
               filteredRecords.map((record) => (
-                <ProductCard key={record.record_id} record={record} onPreview={handlePreview} />
+                <ProductCard key={record.record_id} record={record} onPreview={handlePreview} playingPreview={playingPreview} />
               ))
             )}
           </ProductList>
         </MainContent>
       </Container>
       <Footer />
-      <audio ref={audioRef} />
     </>
   );
 };
@@ -158,15 +164,17 @@ const Title = styled.h1`
 
 const ProductList = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  grid-gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 45px;
   justify-content: center;
-  gap:75px;
-  padding:65px;
-  max-width:100%;
 `;
 
 const NoRecords = styled.p`
   text-align: center;
   color: red;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
+  text-align: center;
 `;

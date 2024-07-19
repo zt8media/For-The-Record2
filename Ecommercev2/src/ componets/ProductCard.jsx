@@ -4,7 +4,7 @@ import { useCart } from './CartContext';
 import getAlbumDetails from './spotifyAPI';
 import '@fortawesome/fontawesome-free/css/all.min.css'; // Import Font Awesome CSS
 
-const ProductCard = ({ record, onPreview }) => {
+const ProductCard = ({ record, onPreview, playingPreview }) => {
   const { addToCart } = useCart();
   const [albumDetails, setAlbumDetails] = useState(null);
   const [albumFound, setAlbumFound] = useState(true);
@@ -13,7 +13,7 @@ const ProductCard = ({ record, onPreview }) => {
     const fetchAlbumDetails = async () => {
       const details = await getAlbumDetails(record.album_title, record.artist_name, record.year);
       console.log('Album details:', details); // Log album details
-      if (details) {
+      if (details && details.tracks && details.tracks.some(track => track.preview_url)) {
         setAlbumDetails(details);
         setAlbumFound(true);
       } else {
@@ -44,7 +44,7 @@ const ProductCard = ({ record, onPreview }) => {
         }}>Add to Cart</AddToCartButton>
         {albumFound ? (
           <PreviewButton onClick={() => onPreview(albumDetails)}>
-            <i className="fas fa-play"></i>
+            <i className={`fas ${playingPreview === albumDetails?.name ? 'fa-stop' : 'fa-play'}`}></i>
           </PreviewButton>
         ) : (
           <NoPreviewButton>No preview available</NoPreviewButton>

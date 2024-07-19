@@ -1,0 +1,26 @@
+[
+    {
+      "record_id": 1,
+      "artist_name": "SZA",
+      "album_title": "Ctrl",
+      "genre": "R&B",
+      "year": 2017,
+      "description": "SZA’s debut studio album, featuring a mix of R&B, neo-soul, and hip-hop.",
+      "price": 21.99,
+      "stock_quantity": 50,
+      "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721348738/sza-ctrl-record_uixwxa.webp"
+    },
+    {
+      "record_id": 2,
+      "artist_name": "Billie Eilish",
+      "album_title": "Happier Than Ever",
+      "genre": "Pop",
+      "year": 2021,
+      "description": "Billie Eilish’s second studio album, featuring a mix of pop and alternative music.",
+      "price": 29.99,
+      "stock_quantity": 50,
+      "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721395439/Billie-Happier-Than_Ever_lmhias.webp"
+    }
+ 
+  ]
+  

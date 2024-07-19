@@ -1,4 +1,3 @@
-// spotifyAPI.js
 import getSpotifyToken from './spotifyAuth';
 
 const getAlbumDetails = async (albumName, artistName, releaseYear) => {
@@ -26,7 +25,8 @@ const getAlbumDetails = async (albumName, artistName, releaseYear) => {
 
       return album;
     } else {
-      throw new Error('No albums found');
+      console.warn(`No albums found for query: ${query}`);
+      return null;
     }
   } catch (error) {
     console.error('Error fetching album details:', error);

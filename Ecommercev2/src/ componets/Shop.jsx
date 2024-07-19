@@ -148,7 +148,7 @@ const FiltersContainer = styled.div`
 
 const MainContent = styled.div`
   width: 100%;
-  padding: 20px;
+  padding: 100px;
 
   @media (min-width: 768px) {
     width: 80%;
@@ -163,10 +163,15 @@ const Title = styled.h1`
 `;
 
 const ProductList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 45px;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
+  gap: 20px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const NoRecords = styled.p`

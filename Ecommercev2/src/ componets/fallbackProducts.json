@@ -1,26 +1,135 @@
 [
     {
       "record_id": 1,
-      "artist_name": "SZA",
-      "album_title": "Ctrl",
+      "artist_name": "Aaliyah",
+      "album_title": "I Care 4 U",
       "genre": "R&B",
-      "year": 2017,
-      "description": "SZA’s debut studio album, featuring a mix of R&B, neo-soul, and hip-hop.",
-      "price": 21.99,
+      "year": 2002,
+      "description": "A collection of Aaliyah’s hits and unreleased tracks.",
+      "price": "29.99",
       "stock_quantity": 50,
-      "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721348738/sza-ctrl-record_uixwxa.webp"
+      "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721348733/aaliyah-record_ri9shg.webp"
     },
     {
       "record_id": 2,
+      "artist_name": "Erykah Badu",
+      "album_title": "New Amerykah Part One (4th World War)",
+      "genre": "R&B",
+      "year": 2008,
+      "description": "Erykah Badu’s fourth studio album, blending soul, funk, and hip hop.",
+      "price": "24.99",
+      "stock_quantity": 50,
+      "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721348733/badu_hqjn8p.webp"
+    },
+    {
+      "record_id": 3,
+      "artist_name": "Aretha Franklin",
+      "album_title": "Aretha’s Gold",
+      "genre": "Soul",
+      "year": 1969,
+      "description": "A compilation of Aretha Franklin’s greatest hits.",
+      "price": "19.99",
+      "stock_quantity": 50,
+      "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721348733/aretha_zmitgk.avif"
+    },
+    {
+      "record_id": 4,
+      "artist_name": "Leon Bridges",
+      "album_title": "Coming Home",
+      "genre": "Soul",
+      "year": 2015,
+      "description": "Debut album of Leon Bridges, featuring a retro 60s soul sound.",
+      "price": "22.99",
+      "stock_quantity": 50,
+      "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721348733/coming-home_omkqte.webp"
+    },
+    {
+      "record_id": 5,
       "artist_name": "Billie Eilish",
       "album_title": "Happier Than Ever",
       "genre": "Pop",
       "year": 2021,
       "description": "Billie Eilish’s second studio album, featuring a mix of pop and alternative music.",
-      "price": 29.99,
+      "price": "29.99",
       "stock_quantity": 50,
       "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721395439/Billie-Happier-Than_Ever_lmhias.webp"
+    },
+    {
+      "record_id": 6,
+      "artist_name": "Lizzo",
+      "album_title": "Coconut Oil",
+      "genre": "Pop",
+      "year": 2016,
+      "description": "Lizzo’s debut EP, blending pop, hip hop, and R&B.",
+      "price": "17.99",
+      "stock_quantity": 50,
+      "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721348734/lizzo-album_s5zp45.webp"
+    },
+    {
+      "record_id": 7,
+      "artist_name": "Prince",
+      "album_title": "Purple Rain",
+      "genre": "Rock",
+      "year": 1984,
+      "description": "Prince’s iconic album and soundtrack to the film of the same name.",
+      "price": "25.99",
+      "stock_quantity": 50,
+      "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721348734/purple-rain_biesxj.webp"
+    },
+    {
+      "record_id": 8,
+      "artist_name": "SZA",
+      "album_title": "Ctrl",
+      "genre": "R&B",
+      "year": 2017,
+      "description": "SZA’s debut studio album, featuring a mix of R&B, soul, and hip hop.",
+      "price": "21.99",
+      "stock_quantity": 50,
+      "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721348738/sza-ctrl-record_uixwxa.webp"
+    },
+    {
+      "record_id": 9,
+      "artist_name": "Toni Braxton",
+      "album_title": "Libra",
+      "genre": "R&B",
+      "year": 2005,
+      "description": "Toni Braxton’s sixth studio album, exploring themes of love and heartbreak.",
+      "price": "23.99",
+      "stock_quantity": 50,
+      "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721348739/tony-braxton_dvr1ib.webp"
+    },
+    {
+      "record_id": 10,
+      "artist_name": "Whitney Houston",
+      "album_title": "Whitney",
+      "genre": "Pop",
+      "year": 1987,
+      "description": "Whitney Houston’s second studio album, featuring several chart-topping hits.",
+      "price": "26.99",
+      "stock_quantity": 50,
+      "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721348739/whitney_snsott.webp"
+    },
+    {
+      "record_id": 11,
+      "artist_name": "Michael Jackson",
+      "album_title": "Thriller",
+      "genre": "Pop",
+      "year": 1982,
+      "description": "Michael Jackson’s iconic album, featuring hits like 'Billie Jean' and 'Thriller'.",
+      "price": "29.99",
+      "stock_quantity": 50,
+      "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721348738/thriller_lqrbjs.webp"
+    },
+    {
+      "record_id": 12,
+      "artist_name": "Lauryn Hill",
+      "album_title": "The Miseducation of Lauryn Hill",
+      "genre": "Hip-Hop/R&B",
+      "year": 1998,
+      "description": "Lauryn Hill’s debut solo album, a critically acclaimed blend of hip-hop and R&B.",
+      "price": "27.99",
+      "stock_quantity": 50,
+      "image_url": "https://res.cloudinary.com/dpzghqdc3/image/upload/v1721348734/lauryn-record_etrngj.webp"
     }
- 
   ]
   

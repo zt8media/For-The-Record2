@@ -64,8 +64,8 @@ const ProductItem = styled.div`
   margin: 10px;
   padding: 20px;
   text-align: center;
-  width: 250px;
   transition: transform 0.2s;
+  width: 250px;
 
   &:hover {
     transform: scale(1.09);

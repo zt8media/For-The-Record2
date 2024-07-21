@@ -5,11 +5,16 @@ import Footer from './Footer';
 import Filter from './Filters';
 
 const Shop = () => {
+  // State to store the fetched records
   const [records, setRecords] = useState([]);
+  // State to store the filtered records
   const [filteredRecords, setFilteredRecords] = useState([]);
+  // State to store any errors that occur during fetching
   const [error, setError] = useState(null);
+  // State to store the current filter settings
   const [filter, setFilter] = useState({ genre: '', price: '' });
 
+  // Fetch records from the server when the component mounts
   useEffect(() => {
     const getRecords = async () => {
       try {
@@ -18,45 +23,52 @@ const Shop = () => {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        setRecords(data);
-        setFilteredRecords(data);
+        setRecords(data); // Set the fetched records
+        setFilteredRecords(data); // Initially, set the filtered records to be the same as fetched records
       } catch (error) {
         console.error('Error fetching records:', error);
-        setError(error);
+        setError(error); // Set the error if fetching fails
       }
     };
 
-    getRecords();
+    getRecords(); // Call the function to fetch records
   }, []);
 
+  // Update the filtered records whenever the filter settings or records change
   useEffect(() => {
     filterRecords();
   }, [filter, records]);
 
+  // Function to handle filter changes
   const handleFilterChange = (type, value) => {
     setFilter((prev) => ({ ...prev, [type]: value }));
   };
 
+  // Function to filter the records based on the current filter settings
   const filterRecords = () => {
     let tempRecords = [...records];
 
+    // Filter by genre if specified
     if (filter.genre) {
       tempRecords = tempRecords.filter(record => record.genre === filter.genre);
     }
 
+    // Sort by price if specified
     if (filter.price === 'lowToHigh') {
       tempRecords.sort((a, b) => a.price - b.price);
     } else if (filter.price === 'highToLow') {
       tempRecords.sort((a, b) => b.price - a.price);
     }
 
-    setFilteredRecords(tempRecords);
+    setFilteredRecords(tempRecords); // Update the filtered records
   };
 
+  // Show error message if there was an error fetching records
   if (error) {
     return <div>Error fetching records: {error.message}</div>;
   }
 
+  // Get unique genres from the records for the filter
   const genres = [...new Set(records.map(record => record.genre))];
 
   return (
@@ -64,11 +76,13 @@ const Shop = () => {
       <Navbar />
       <Container>
         <Title>Shop</Title>
+        {/* Pass genres and filter change handler to the Filter component */}
         <Filter genres={genres} onFilterChange={handleFilterChange} />
         <ProductList>
           {filteredRecords.length === 0 ? (
             <NoRecords>No records found.</NoRecords>
           ) : (
+            // Map over the filtered records to display them
             filteredRecords.map((record) => (
               <ProductItem key={record.record_id}>
                 <ProductImage src={record.image_url} alt={record.album_title} />
@@ -90,6 +104,7 @@ const Shop = () => {
 
 export default Shop;
 
+// Styled Components
 const Container = styled.div`
   padding: 20px;
   background-color: black;

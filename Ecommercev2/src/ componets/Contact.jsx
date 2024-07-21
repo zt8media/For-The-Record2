@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Navbar from './Navbar';
 import Footer from './Footer';
 
+// Styled-components for styling
 const ContactContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -122,14 +123,18 @@ const ContactSubheader = styled.h4`
 `;
 
 const Contact = () => {
+  // State to manage form data
   const [formData, setFormData] = useState({
     name: '',
     number: '',
     email: '',
     message: ''
   });
+  
+  // State to manage form validation errors
   const [errors, setErrors] = useState({});
 
+  // Function to validate form data
   const validate = () => {
     const errors = {};
 
@@ -154,6 +159,7 @@ const Contact = () => {
     return errors;
   };
 
+  // Function to handle input changes and update form data
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -162,11 +168,13 @@ const Contact = () => {
     });
   };
 
+  // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     const validationErrors = validate();
     setErrors(validationErrors);
 
+    // If no validation errors, submit the form
     if (Object.keys(validationErrors).length === 0) {
       console.log('Form submitted', formData);
       setFormData({

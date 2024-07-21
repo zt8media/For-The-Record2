@@ -3,29 +3,38 @@ import styled from 'styled-components';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
+// Filters component that accepts genres, filter state, and handleFilterChange function as props
 const Filters = ({ genres, filter, handleFilterChange }) => {
   return (
     <Sidebar>
       <SidebarTitle>Filters</SidebarTitle>
       <FilterContainer>
+        {/* Filter for searching by category */}
         <FilterGroup>
           <Label htmlFor="category">Search:</Label>
           <Input
             type="text"
             id="category"
             placeholder="Artist, Title, Year, Genre"
+            // Call handleFilterChange when the input value changes
             onChange={(e) => handleFilterChange('category', e.target.value)}
           />
         </FilterGroup>
+        
+        {/* Filter for selecting a genre */}
         <FilterGroup>
           <Label htmlFor="genre">Genre:</Label>
           <Select id="genre" onChange={(e) => handleFilterChange('genre', e.target.value)}>
+            {/* Default option to show all genres */}
             <Option value="">All</Option>
+            {/* Dynamically generate genre options from the genres array */}
             {genres.map((genre) => (
               <Option key={genre} value={genre}>{genre}</Option>
             ))}
           </Select>
         </FilterGroup>
+        
+        {/* Filter for selecting a price range using a slider */}
         <FilterGroup>
           <Label>Price:</Label>
           <Slider
@@ -33,10 +42,12 @@ const Filters = ({ genres, filter, handleFilterChange }) => {
             min={0}
             max={50}
             defaultValue={[0, 50]}
+            // Call handleFilterChange when the slider value changes
             onChange={(value) => handleFilterChange('price', value)}
             trackStyle={{ backgroundColor: 'red' }}
             handleStyle={{ borderColor: 'red' }}
           />
+          {/* Display the selected price range */}
           <PriceRange>{`$${filter.price[0]} - $${filter.price[1]}`}</PriceRange>
         </FilterGroup>
       </FilterContainer>
@@ -46,6 +57,7 @@ const Filters = ({ genres, filter, handleFilterChange }) => {
 
 export default Filters;
 
+// Styled-components for styling the filter component
 const Sidebar = styled.aside`
   padding: 20px;
   background-color: transparent;
@@ -91,7 +103,7 @@ const FilterGroup = styled.div`
 
   @media (max-width: 480px) {
     margin-bottom: 10px;
-    max-width:100%;
+    max-width: 100%;
   }
 
   label {
@@ -99,35 +111,6 @@ const FilterGroup = styled.div`
     align-items: center;
     margin-bottom: 10px;
     color: white;
-
-    @media (max-width: 768px) {
-      margin-bottom: 8px;
-    }
-
-    @media (max-width: 480px) {
-      margin-bottom: 5px;
-    }
-  }
-
-  input[type="checkbox"] {
-    margin-right: 10px;
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    vertical-align: middle;
-    cursor: pointer;
-    border: 1px solid #ccc;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-color: white;
-  }
-
-  input[type="checkbox"]:checked {
-    background-color: rgb(215,70,51);
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M20.292 5.292a1 1 0 0 1 0 1.414l-11 11a 1 1 0 0 1-1.414 0l-5-5a 1 1 0 1 1 1.414-1.414L9 15.586l10.292-10.293a1 1 0 0 1 1.414 0z"/></svg>');
-    background-position: center;
-    background-repeat: no-repeat;
   }
 `;
 

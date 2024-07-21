@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import backgroundVideo from '../assets/record-background.mp4';
 import styled from 'styled-components';
@@ -59,7 +60,7 @@ const Title = styled.h2`
   }
   strong {
     color: red; /* Specific style for 'Your' */
-  
+  }
 `;
 
 const Subtitle = styled.h3`
@@ -108,7 +109,7 @@ const Button = styled.button`
 const Middlesecton = styled.section`
   background-color: ${(props) =>
     props.varient === 'middleSectionBlack' ? 'black' : 'red'};
-  max-width:100%;
+  max-width: 100%;
   height: auto;
   padding: 40px;
 `;
@@ -192,28 +193,27 @@ const Home = () => {
         <BackgroundVideo src={backgroundVideo} muted loop autoPlay />
         <Overlay />
         <TextContainer>
-          <Title  >For The <strong>Record</strong> </Title>
+          <Title>For The <strong>Record</strong></Title>
           <Subtitle>
             Find <strong>Your</strong> Soundtrack.
           </Subtitle>
-          <a href="productOne.html">
+          <Link to="/shop">
             <Button>Shop Now</Button>
-          </a>
-          <a href="contact1.html">
+          </Link>
+          <Link to="/contact">
             <Button>Contact Us</Button>
-          </a>
+          </Link>
         </TextContainer>
       </Showcase>
       <Middlesecton>
-        <CenterHeader varient="MainHeader" underline='Underlined'>
-          <h1 >About Us</h1>
+        <CenterHeader varient="MainHeader" underline="Underlined">
+          <h1>About Us</h1>
         </CenterHeader>
 
         <DisplayFlex>
           <HomeCard onClick={() => setIsWhoWeAreOpen(!isWhoWeAreOpen)}>
             <CenterHeader>
               <h1>Who We Are</h1>
-            
             </CenterHeader>
             <HomeCardContent isOpen={isWhoWeAreOpen}>
               <StyledParagraph>

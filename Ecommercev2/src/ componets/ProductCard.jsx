@@ -70,6 +70,10 @@ const ProductItem = styled.div`
   &:hover {
     transform: scale(1.09);
   }
+
+  @media (max-width: 768px) {
+    width: 90%;
+  }
 `;
 
 const ProductImage = styled.img`
@@ -82,12 +86,20 @@ const ProductImage = styled.img`
 const ProductTitle = styled.h3`
   color: white;
   font-size: 1.5em;
+
+  @media (max-width: 768px) {
+    font-size: 1.2em;
+  }
 `;
 
 const ProductArtist = styled.p`
   color: red;
   font-size: 1.5em;
   font-weight: 400;
+
+  @media (max-width: 768px) {
+    font-size: 1.2em;
+  }
 `;
 
 const ProductDetails = styled.p`
@@ -113,6 +125,11 @@ const ButtonContainer = styled.div`
   justify-content: center;
   gap: 10px; /* Gap between buttons */
   margin-top: 10px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 5px;
+  }
 `;
 
 const AddToCartButton = styled.button`
@@ -126,6 +143,10 @@ const AddToCartButton = styled.button`
 
   &:hover {
     background-color: black;
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px 16px;
   }
 `;
 
@@ -145,6 +166,10 @@ const PreviewButton = styled.button`
   i {
     font-size: 1.2em;
   }
+
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
 `;
 
 const NoPreviewButton = styled.button`
@@ -154,4 +179,8 @@ const NoPreviewButton = styled.button`
   padding: 10px;
   cursor: not-allowed;
   border-radius: 5px;
+
+  @media (max-width: 768px) {
+    padding: 8px;
+  }
 `;

@@ -7,48 +7,61 @@ const ContactContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 200px;
+  padding: 50px;
   background-color: black;
   color: white;
   min-height: 100vh;
- 
+
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
 `;
 
 const ContactForm = styled.form`
   display: flex;
   flex-direction: column;
   width: 30%;
-  height: auto;
   padding: 30px;
   background-color: transparent;
   border-radius: 15px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 
+  @media (max-width: 1200px) {
+    width: 50%;
+  }
+
   @media (max-width: 768px) {
-    width: 175%;
+    width: 100%;
+    padding: 20px;
   }
 `;
 
 const Input = styled.input`
   margin-bottom: 15px;
-  padding: 20px;
+  padding: 15px;
   border-radius: 5px;
   border: 3px solid red;
   background-color: transparent;
   font-size: 16px;
-  color:white;
- 
+  color: white;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 const Textarea = styled.textarea`
   margin-bottom: 15px;
-  padding: 30px;
+  padding: 15px;
   border-radius: 5px;
   border: 3px solid red;
   background-color: transparent;
   font-size: 16px;
-  color:White;
-  
+  color: white;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 const SubmitButton = styled.button`
@@ -68,6 +81,11 @@ const SubmitButton = styled.button`
   &:active {
     background-color: rgb(240, 121, 105);
   }
+
+  @media (max-width: 768px) {
+    padding: 8px;
+    font-size: 16px;
+  }
 `;
 
 const ErrorMessage = styled.p`
@@ -76,20 +94,30 @@ const ErrorMessage = styled.p`
 `;
 
 const ContactHeader = styled.h1`
-  font-size: 5rem; /* Header font size */
+  font-size: 3rem;
   margin-bottom: 20px;
+  text-align: center;
+
   @media (max-width: 768px) {
-    font-size:2.5rem;
-    text-align:center;
-   }
+    font-size: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const ContactSubheader = styled.h4`
-  font-size: 1.5rem; /* Subheader font size */
+  font-size: 1.5rem;
   margin-bottom: 40px;
+  text-align: center;
+
   @media (max-width: 768px) {
-   font-size:1rem;
-   text-align:center;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
   }
 `;
 
@@ -140,9 +168,7 @@ const Contact = () => {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      // Handle form submission
       console.log('Form submitted', formData);
-      // Reset form
       setFormData({
         name: '',
         number: '',

@@ -47,27 +47,34 @@ const Filters = ({ genres, filter, handleFilterChange }) => {
 export default Filters;
 
 const Sidebar = styled.aside`
-  width: 100%;
-  max-width: 100vh;
-  height:100vh;
   padding: 20px;
   background-color: transparent;
-  border:solid red 2px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  font-size:20px;
+  font-size: 20px;
 
   @media (max-width: 768px) {
-   height:35vh;
-   padding:10px;
+    padding: 10px;
+    font-size: 16px;
+  }
 
+  @media (max-width: 480px) {
+    font-size: 14px;
   }
 `;
 
 const SidebarTitle = styled.h2`
   color: white;
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 18px;
+  }
 `;
 
 const FilterContainer = styled.div`
@@ -78,11 +85,28 @@ const FilterContainer = styled.div`
 const FilterGroup = styled.div`
   margin-bottom: 20px;
 
+  @media (max-width: 768px) {
+    margin-bottom: 15px;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 10px;
+    max-width:100%;
+  }
+
   label {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
     color: white;
+
+    @media (max-width: 768px) {
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 480px) {
+      margin-bottom: 5px;
+    }
   }
 
   input[type="checkbox"] {
@@ -101,7 +125,7 @@ const FilterGroup = styled.div`
 
   input[type="checkbox"]:checked {
     background-color: rgb(215,70,51);
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M20.292 5.292a1 1 0 0 1 0 1.414l-11 11a1 1 0 0 1-1.414 0l-5-5a 1 1 0 1 1 1.414-1.414L9 15.586l10.292-10.293a1 1 0 0 1 1.414 0z"/></svg>');
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M20.292 5.292a1 1 0 0 1 0 1.414l-11 11a 1 1 0 0 1-1.414 0l-5-5a 1 1 0 1 1 1.414-1.414L9 15.586l10.292-10.293a1 1 0 0 1 1.414 0z"/></svg>');
     background-position: center;
     background-repeat: no-repeat;
   }
@@ -111,35 +135,66 @@ const Label = styled.label`
   display: block;
   margin-bottom: 10px;
   color: white;
-  font-size:20px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    margin-bottom: 5px;
+    font-size: 12px;
+  }
 `;
 
 const Select = styled.select`
-  width: 94%;
-  padding: 25px;
+  width: 100%;
+  padding: 15px;
   border-radius: 5px;
-  font-size:20px
+  font-size: 16px;
+  margin-bottom: 10px;
+
   @media (max-width: 768px) {
-   padding:15px;
-   font-size:10px;
-   }
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+    font-size: 12px;
+  }
 `;
 
 const Option = styled.option``;
 
 const Input = styled.input`
-  width: 80%;
-  padding: 25px;
+  width: 100%;
+  padding: 15px;
   border-radius: 5px;
   border: 1px solid #ccc;
-  font-size:20px;
+  font-size: 16px;
+  margin-bottom: 10px;
+
   @media (max-width: 768px) {
-    padding:15px;
- 
-    }
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+    font-size: 12px;
+  }
 `;
 
 const PriceRange = styled.div`
   margin-top: 10px;
   color: white;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
 `;

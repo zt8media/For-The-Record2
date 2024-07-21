@@ -104,12 +104,13 @@ const Shop = () => {
     <>
       <Navbar />
       <Container>
-        <FiltersContainer>
-          <Filters genres={[...new Set(records.map(record => record.genre))]} filter={filter} handleFilterChange={handleFilterChange} />
-        </FiltersContainer>
         <MainContent>
-          <Title>Records</Title>
+          <Title>Vinyls</Title>
+          <Description>Explore our collection of classic and contemporary vinyl records.</Description>
           {error && <ErrorMessage>{error}</ErrorMessage>}
+          <FiltersContainer>
+            <Filters genres={[...new Set(records.map(record => record.genre))]} filter={filter} handleFilterChange={handleFilterChange} />
+          </FiltersContainer>
           <ProductList>
             {filteredRecords.length === 0 ? (
               <NoRecords>No records found.</NoRecords>
@@ -138,20 +139,16 @@ const Container = styled.div`
   }
 `;
 
-const FiltersContainer = styled.div`
-  width: 100%;
-
-  @media (min-width: 768px) {
-    width: 20%;
-  }
-`;
-
 const MainContent = styled.div`
-  width: 100%;
-  padding: 100px;
+  // width: 100%;
+  padding: 50px;
+
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
 
   @media (min-width: 768px) {
-    width: 80%;
+    width: 100%;
   }
 `;
 
@@ -160,6 +157,30 @@ const Title = styled.h1`
   color: white;
   font-size: 50px;
   text-shadow: 2px 5px 15px rgb(215,70,51);
+
+  @media (max-width: 768px) {
+    font-size: 30px;
+  }
+`;
+
+const Description = styled.p`
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
+`;
+
+const FiltersContainer = styled.div`
+  width: 100%;
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    margin-bottom: 10px;
+  }
 `;
 
 const ProductList = styled.div`

@@ -193,7 +193,7 @@ const Footer = () => {
   return (
     <FooterContainer>
       <FooterLeft>
-        <h3>For The Record<span>Logo</span></h3>
+        <h3>For The Record</h3>
         <p className="footer-links">
           <Link to="/" className="link-1">Home</Link>
           <Link to="/shop">Shop</Link>

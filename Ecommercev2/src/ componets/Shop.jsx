@@ -7,13 +7,20 @@ import Filters from './Filters';
 import fallbackProducts from './fallbackProducts.json';
 
 const Shop = () => {
+  // State to hold the records fetched from the API
   const [records, setRecords] = useState([]);
+  // State to hold the filtered records based on user filters
   const [filteredRecords, setFilteredRecords] = useState([]);
+  // State to hold any error messages
   const [error, setError] = useState(null);
+  // State to hold the current filter values
   const [filter, setFilter] = useState({ genre: '', price: [0, 50], category: '' });
+  // State to hold the currently playing preview
   const [playingPreview, setPlayingPreview] = useState(null);
+  // State to hold the audio object for playing previews
   const [audio, setAudio] = useState(null);
 
+  // useEffect to fetch records from the API when the component mounts
   useEffect(() => {
     const getRecords = async () => {
       try {
@@ -36,25 +43,31 @@ const Shop = () => {
     };
 
     getRecords();
-  }, []);
+  }, []); // Empty dependency array means this useEffect runs only once when the component mounts
 
+  // useEffect to filter records whenever the filter state or records state changes
   useEffect(() => {
     filterRecords();
   }, [filter, records]);
 
+  // Function to handle changes in filter values
   const handleFilterChange = (type, value) => {
     setFilter((prev) => ({ ...prev, [type]: value }));
   };
 
+  // Function to filter records based on the current filter values
   const filterRecords = () => {
     let tempRecords = [...records];
 
+    // Filter by genre if a genre is selected
     if (filter.genre) {
       tempRecords = tempRecords.filter(record => record.genre.toLowerCase() === filter.genre.toLowerCase());
     }
 
+    // Filter by price range
     tempRecords = tempRecords.filter(record => record.price >= filter.price[0] && record.price <= filter.price[1]);
 
+    // Filter by category (artist name, album title, year, or genre)
     if (filter.category) {
       tempRecords = tempRecords.filter(record =>
         record.artist_name.toLowerCase().includes(filter.category.toLowerCase()) ||
@@ -67,12 +80,14 @@ const Shop = () => {
     setFilteredRecords(tempRecords);
   };
 
+  // Function to handle playing preview audio
   const handlePreview = (albumDetails) => {
     if (!albumDetails || !albumDetails.tracks) {
       alert('No preview available for this album.');
       return;
     }
 
+    // Pause and reset the audio if the same preview is playing
     if (audio && playingPreview === albumDetails.name) {
       audio.pause();
       setAudio(null);
@@ -80,10 +95,12 @@ const Shop = () => {
       return;
     }
 
+    // Pause the current audio if any is playing
     if (audio) {
       audio.pause();
     }
 
+    // Find a track with a preview URL and play it
     const previewTrack = albumDetails.tracks.find(track => track.preview_url);
     const previewUrl = previewTrack ? previewTrack.preview_url : null;
 
@@ -129,6 +146,7 @@ const Shop = () => {
 
 export default Shop;
 
+// Styled Components for styling the Shop component
 const Container = styled.div`
   display: flex;
   flex-direction: column;

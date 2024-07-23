@@ -197,9 +197,8 @@ const Footer = () => {
         <p className="footer-links">
           <Link to="/" className="link-1">Home</Link>
           <Link to="/shop">Shop</Link>
-          <Link to="/cart">Cart</Link>
           <Link to="/contact">Contact</Link>
-          <Link to="/about">About</Link>
+        
         </p>
         <p className="footer-company-name">For The Record © 2023</p>
       </FooterLeft>
